@@ -1,0 +1,3 @@
+excluded:
+  - .build
+line_length: 170
