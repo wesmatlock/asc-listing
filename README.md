@@ -17,6 +17,31 @@ If you already run fastlane `deliver` and it covers what you upload, it remains 
 
 ## Install
 
+Requires macOS 26 or later. Release builds are universal (Apple silicon and Intel), signed with Developer ID and notarized by Apple.
+
+### Homebrew
+
+```sh
+brew install wesmatlock/tap/asc-listing
+```
+
+Naming the tap in full trusts this one formula for Homebrew's [tap trust](https://docs.brew.sh/Tap-Trust); nothing else in the tap is trusted. `brew upgrade asc-listing` picks up new releases.
+
+### Installer package
+
+Download `asc-listing-<version>.pkg` from the [latest release](https://github.com/wesmatlock/asc-listing/releases/latest) and open it. It installs `/usr/local/bin/asc-listing`, which is on the default `PATH`. The notarization ticket is stapled, so it installs without a network connection. To remove it:
+
+```sh
+sudo rm /usr/local/bin/asc-listing
+sudo pkgutil --forget net.insoc.asc-listing
+```
+
+### Zip
+
+The release also has `asc-listing-<version>-macos-universal.zip` and a `.sha256` file for each download. Unzip it and put `asc-listing` anywhere on your `PATH`. A bare command-line binary cannot carry a stapled ticket, so Gatekeeper checks its notarization online the first time it runs.
+
+### From source
+
 ```sh
 git clone https://github.com/wesmatlock/asc-listing.git
 cd asc-listing
@@ -25,7 +50,7 @@ make uninstall
 make test
 ```
 
-Requires macOS 26 and a Swift 6.2 toolchain. Make sure `~/.local/bin` is on your `PATH`. `make install` links the binary inside this clone, so keep the clone where it is.
+Requires a Swift 6.2 toolchain. Make sure `~/.local/bin` is on your `PATH`. `make install` links the binary inside this clone, so keep the clone where it is.
 
 The `ASCListingKit` library product is usable on its own, but its API is not stable before 1.0.
 
